@@ -1,0 +1,38 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: workshop
+  name: app-role
+rules:
+- apiGroups: 
+    - "" # "" indicates the core API group
+    - apps
+    - autoscaling
+    - batch
+    - extensions
+    - policy
+    - rbac.authorization.k8s.io
+    - networking.k8s.io
+  resources: 
+    - pods
+    - componentstatuses
+    - daemonsets
+    - deployments
+    - statefulsets
+    - events
+    - endpoints
+    - horizontalpodautoscalers
+    - ingress
+    - jobs
+    - limitranges
+    - storageclasses
+    - persistentvolumeclaims
+    - resourcequotas
+    - replicasets
+    - replicationcontrollers
+    - serviceaccounts
+    - secrets
+    - services
+    - ingresses
+    - namespaces
+  verbs: ["get", "watch", "list", "create", "update", "patch"]

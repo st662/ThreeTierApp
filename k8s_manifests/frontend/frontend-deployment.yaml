@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: workshop
+  labels:
+    role: frontend
+    env: demo
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      role: frontend
+  template:
+    metadata:
+      labels:
+        role: frontend
+    spec:
+      imagePullSecrets:
+      - name: ecr-registry
+      containers:
+      - name: frontend
+        image: 807373741966.dkr.ecr.us-east-1.amazonaws.com/3tier_frontend:35
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: REACT_APP_BACKEND_URL
+            value: "https://app.sahil-devops.xyz/api/tasks" 
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+        # livenessProbe:
+        #     httpGet:
+        #       path: /
+        #       port: 3000
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 5
+        #     timeoutSeconds: 10
+        #     successThreshold: 1
+        #     failureThreshold: 3
+        # readinessProbe:
+        #     httpGet:
+        #       path: /
+        #       port: 3000
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 5
+        #     timeoutSeconds: 10
+        #     successThreshold: 3
+        #     failureThreshold: 3
